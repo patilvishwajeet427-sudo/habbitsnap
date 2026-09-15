@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>CHRONO // ID-01 & HabitSnap — Multi-Mode Habit & Sleep Tracker</title>
+  <meta name="description" content="Dual-mode habit tracker featuring Industrial Hardware and Modern Aesthetic design with Sleep Tracker, AI designer habits, and press-and-hold exploded CAD views." />
+  <meta name="theme-color" content="#121214" />
+  
+  <!-- Precision Fonts: Space Mono, IBM Plex Mono & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-braun mode-industrial">
+  <!-- Technical Grid & Ambient Lighting -->
+  <div class="technical-grid-bg"></div>
+  <div class="hardware-glow glow-1"></div>
+  <div class="hardware-glow glow-2"></div>
+  <div class="ambient-glow modern-glow-1"></div>
+  <div class="ambient-glow modern-glow-2"></div>
+
+  <!-- Particle & Sparks Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Main Chassis Shell -->
+  <div class="app-shell" id="app-chassis">
+    
+    <!-- Top Telemetry Header -->
+    <header class="app-header hardware-header">
+      <div class="telemetry-brand">
+        <div class="hardware-badge">
+          <span class="status-led active" id="sys-status-led"></span>
+          <span class="mono-label" id="brand-mode-label">ID-01 // CHRONO</span>
+        </div>
+        <h1 class="header-project-title" id="header-user-tag">DAILY OVERVIEW</h1>
+      </div>
+
+      <div class="hardware-controls-cluster">
+        <!-- Dedicated 3D CAD Exploded View Button -->
+        <button class="tactile-icon-btn exploded-view-launch-btn" id="btn-open-exploded-view" title="Open 3D CAD Exploded View">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span class="btn-micro-tag">CAD</span>
+        </button>
+
+        <!-- Multi-Mode Switcher Button -->
+        <button class="tactile-mode-toggle" id="btn-toggle-design-mode" title="Switch App Design Mode">
+          <span class="mode-icon-current" id="mode-icon-indicator">🎛️</span>
+          <span class="mode-text-label" id="mode-text-display">INDUSTRIAL</span>
+        </button>
+
+        <!-- Live Color Calibration & Customization Button -->
+        <button class="tactile-icon-btn" id="btn-open-palette" title="Appearance & Mode Customization">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span class="btn-micro-tag">TUNE</span>
+        </button>
+
+        <!-- Total Points Telemetry Pill -->
+        <div class="tactile-telemetry-pill points-box" title="Calculated Output Points">
+          <span class="pill-dot">●</span>
+          <span class="pill-val mono-num" id="header-points-count">0</span>
+          <span class="pill-unit">XP</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Prominent Streak Telemetry Banner (Industrial Mode) -->
+    <section class="streak-telemetry-bar mode-hero-ind">
+      <div class="streak-hardware-panel">
+        <div class="streak-indicator-led"></div>
+        <div class="streak-data-text">
+          <span class="mono-meta" id="banner-meta-label">OPERATIONAL CONTINUITY</span>
+          <h2 class="streak-display-title">CURRENT STREAK: <span class="accent-streak-num" id="header-streak-count">14</span> DAYS</h2>
+        </div>
+        <div class="streak-status-flag" id="streak-status-flag">ACTIVE</div>
+      </div>
+    </section>
+
+    <!-- Modern View Top Hero (Visible only in Modern Mode) -->
+    <section class="modern-welcome-hero mode-hero-mod">
+      <div class="modern-welcome-text">
+        <span class="modern-eyebrow" id="modern-mode-custom-title">AURA DESIGNER ✨</span>
+        <h2 class="modern-title" id="modern-welcome-user">Habit Pulse</h2>
+        <p class="modern-sub">Your creative momentum is thriving today.</p>
+      </div>
+      <div class="modern-xp-bubble">
+        <span class="bubble-num" id="modern-bubble-xp">280</span>
+        <span class="bubble-label">XP GAINED</span>
+      </div>
+    </section>
+
+    <!-- Cyberdeck Terminal Hero (Visible in Cyberdeck Mode) -->
+    <section class="cyberdeck-terminal-hero mode-hero-cyber">
+      <div class="terminal-header-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-title mono-num" id="cyber-mode-custom-title">CYBERDECK TE-01 // ROOT TERMINAL</span>
+      </div>
+      <div class="terminal-body-content">
+        <div class="mono-num cyber-stream-line">&gt; SYSTEM: ONLINE // BUFFER: 100% // XP: <span id="cyber-hero-xp">280</span></div>
+        <div class="mono-num cyber-sub-line">&gt; EXEC_STATUS: 14-DAY CONTINUOUS UPTIME</div>
+      </div>
+    </section>
+
+    <!-- Dieter Rams Studio Minimalism Hero (Visible in Dieter Mode) -->
+    <section class="dieter-minimal-hero mode-hero-dieter">
+      <div class="dieter-hero-left">
+        <span class="dieter-number mono-num">10.</span>
+        <div class="dieter-texts">
+          <h2 class="dieter-title" id="dieter-mode-custom-title">Less, but better.</h2>
+          <p class="dieter-sub">Gutes Design ist so wenig Design wie möglich.</p>
+        </div>
+      </div>
+      <div class="dieter-badge mono-num" id="dieter-hero-xp">280 PTS</div>
+    </section>
+
+    <!-- Aerospace Mission HUD Hero (Visible in Aerospace Mode) -->
+    <section class="aerospace-hud-hero mode-hero-aero">
+      <div class="hud-crosshair">⌖</div>
+      <div class="hud-center-data">
+        <span class="mono-meta" id="aero-mode-custom-title">TELEMETRY LOCK // FLIGHT VECTOR</span>
+        <div class="hud-streak-mono mono-num">STREAK: 14D • VELOCITY 98.4%</div>
+      </div>
+      <div class="hud-alt-badge mono-num" id="aero-hero-xp">XP 280</div>
+    </section>
+
+    <!-- Industrial Timeline / Date Selector -->
+    <section class="timeline-strip-container">
+      <div class="timeline-strip" id="date-strip">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- Main Viewport Layer -->
+    <main class="views-container">
+      
+      <!-- ================= TAB 1: HARDWARE CHECKLIST (HABITS) ================= -->
+      <section class="view active-view" id="view-habits">
+        
+        <!-- Tactile Gauge Overview Card -->
+        <div class="analog-gauge-card">
+          <div class="gauge-left-panel">
+            <span class="gauge-eyebrow">DAILY COMPLETION GAUGE</span>
+            <h3 class="gauge-headline" id="completion-ratio-text">0 / 0 EXECUTED</h3>
+            <p class="gauge-sub" id="daily-motivation">Tolerances nominal. Execute daily protocol.</p>
+          </div>
+
+          <!-- Circular Gauge Ring with Precision Ticks -->
+          <div class="circular-dial-container">
+            <svg class="analog-dial-svg" viewBox="0 0 100 100">
+              <circle class="dial-track" cx="50" cy="50" r="40"></circle>
+              <circle class="dial-ticks" cx="50" cy="50" r="44" stroke-dasharray="2 6"></circle>
+              <circle class="dial-indicator" id="daily-progress-ring" cx="50" cy="50" r="40" stroke-dasharray="251.32" stroke-dashoffset="251.32"></circle>
+            </svg>
+            <div class="dial-center-data">
+              <span class="dial-pct mono-num" id="daily-progress-pct">0%</span>
+              <span class="dial-lbl">LOAD</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Neural Habit Intelligence Card -->
+        <div class="ai-intelligence-card" id="ai-dashboard-card">
+          <div class="ai-card-glow"></div>
+          <div class="ai-card-header">
+            <div class="ai-chip">
+              <span class="ai-sparkle">🧠</span>
+              <span class="ai-tag">AI NEURAL ADVISOR</span>
+            </div>
+            <div class="ai-rating-badge">
+              <span class="ai-score-val mono-num" id="ai-overall-score">94</span>
+              <span class="ai-score-label">/ 100 [GRADE A+]</span>
+            </div>
+          </div>
+          <div class="ai-suggestion-text" id="ai-dynamic-suggestion">
+            "Your CAD & Sketching habits show 98% momentum consistency. Recommended: Anchor hydration protocol immediately before 14:00 PM to eliminate late-day cognitive fatigue."
+          </div>
+          <div class="ai-card-footer">
+            <button class="ai-designer-habits-btn" id="btn-open-designer-habits">
+              <span>✨ AI DESIGNER HABITS</span>
+            </button>
+            <button class="ai-refresh-btn" id="btn-refresh-ai-advice">⟳ RE-EVALUATE</button>
+          </div>
+        </div>
+
+        <!-- Category Toggle Matrix -->
+        <div class="tactile-filter-matrix">
+          <button class="filter-switch active" data-category="all">ALL PROTOCOLS</button>
+          <button class="filter-switch" data-category="fitness">FITNESS</button>
+          <button class="filter-switch" data-category="mind">MIND</button>
+          <button class="filter-switch" data-category="productivity">FOCUS</button>
+          <button class="filter-switch" data-category="health">HEALTH</button>
+          <button class="filter-switch" data-category="creativity">DESIGN</button>
+        </div>
+
+        <!-- Section Telemetry Header -->
+        <div class="sub-section-header">
+          <div class="flex-align-center gap-6">
+            <span class="section-bullet">■</span>
+            <h4 class="sub-section-title">ACTIVE PROTOCOL STACK</h4>
+          </div>
+          <div class="flex-align-center gap-6">
+            <button class="micro-text-btn" id="btn-quick-designer-habits">+ AI SUGGESTIONS</button>
+            <span class="mono-meta-tag" id="habits-meta-count">0 UNITS LOADED</span>
+          </div>
+        </div>
+
+        <!-- Checklist Habit Cards Grid -->
+        <div class="habits-list" id="habits-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="empty-state hidden" id="empty-habits-state">
+          <div class="empty-hardware-icon">⎔</div>
+          <h4>NO ACTIVE PROTOCOLS</h4>
+          <p>Press the [+] hardware button to initialize a new habit unit.</p>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: SLEEP TELEMETRY & CIRCADIAN TRACKER ================= -->
+      <section class="view" id="view-sleep">
+        
+        <!-- Sleep Score Card -->
+        <div class="sleep-hero-card">
+          <div class="sleep-hero-header">
+            <div>
+              <span class="mono-eyebrow">CIRCADIAN RECOVERY TELEMETRY</span>
+              <h3 class="stream-title">SLEEP & RESTORATION</h3>
+            </div>
+            <div class="sleep-score-pill">
+              <span class="sleep-score-val mono-num" id="sleep-score-display">92</span>
+              <span class="sleep-score-lbl">% RECOVERED</span>
+            </div>
+          </div>
+
+          <!-- Sleep Time Inputs -->
+          <div class="sleep-inputs-grid">
+            <div class="sleep-input-box">
+              <span class="sleep-input-lbl">BEDTIME</span>
+              <input type="time" id="sleep-input-bed" class="hardware-input mono-num" value="23:30" />
+            </div>
+            <div class="sleep-input-divider">➔</div>
+            <div class="sleep-input-box">
+              <span class="sleep-input-lbl">WAKE TIME</span>
+              <input type="time" id="sleep-input-wake" class="hardware-input mono-num" value="07:30" />
+            </div>
+          </div>
+
+          <!-- Calculated Sleep Duration & Quality Bar -->
+          <div class="sleep-duration-row">
+            <div class="flex-between">
+              <span class="mono-meta">TOTAL SLEEP CYCLE</span>
+              <span class="mono-num" id="sleep-total-duration-text" style="color: var(--accent-green); font-weight: 800;">8H 00M</span>
+            </div>
+            <div class="precision-bar-track" style="margin-top: 6px;">
+              <div class="precision-bar-fill" id="sleep-progress-bar" style="width: 92%; background: var(--accent-green);"></div>
+            </div>
+          </div>
+
+          <!-- Log Sleep Button -->
+          <button class="tactile-action-btn primary-orange" id="btn-log-sleep" style="margin-top: 14px;">
+            <span>LOG SLEEP PROTOCOL (+25 XP)</span>
+          </button>
+        </div>
+
+        <!-- Sleep Architecture Breakdown -->
+        <div class="sub-section-header" style="margin-top: 18px;">
+          <div class="flex-align-center gap-6">
+            <span class="section-bullet">■</span>
+            <h4 class="sub-section-title">SLEEP ARCHITECTURE ANALYSIS</h4>
+          </div>
+          <span class="mono-meta-tag">OPTIMAL</span>
+        </div>
+
+        <div class="sleep-architecture-grid">
+          <div class="sleep-stage-card">
+            <span class="stage-tag">DEEP SLEEP</span>
+            <div class="stage-val mono-num">2h 15m</div>
+            <span class="stage-sub">Physical Restoration</span>
+          </div>
+
+          <div class="sleep-stage-card">
+            <span class="stage-tag">REM RECOVERY</span>
+            <div class="stage-val mono-num">1h 50m</div>
+            <span class="stage-sub">Cognitive & Creativity</span>
+          </div>
+
+          <div class="sleep-stage-card">
+            <span class="stage-tag">LIGHT SLEEP</span>
+            <div class="stage-val mono-num">3h 55m</div>
+            <span class="stage-sub">Neural Sync</span>
+          </div>
+
+          <div class="sleep-stage-card">
+            <span class="stage-tag">RECOVERY INDEX</span>
+            <div class="stage-val mono-num" style="color: var(--accent-green);">96%</div>
+            <span class="stage-sub">CMF Energy Ready</span>
+          </div>
+        </div>
+
+        <!-- AI Sleep Optimization Advice -->
+        <div class="ai-intelligence-card" style="margin-top: 14px;">
+          <div class="ai-card-glow"></div>
+          <div class="ai-card-header">
+            <div class="ai-chip">
+              <span class="ai-sparkle">🌙</span>
+              <span class="ai-tag">AI CIRCADIAN ADVISOR</span>
+            </div>
+          </div>
+          <div class="ai-suggestion-text" id="ai-sleep-tip">
+            "Consistent 8hr sleep cycles improve 3D spatial reasoning by 34%. For optimal design focus, avoid screens 45 mins prior to bedtime."
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: PHOTO PROOF PHOTOSTREAM ================= -->
+      <section class="view" id="view-feed">
+        <div class="photostream-hardware-header">
+          <div class="flex-between">
+            <div>
+              <span class="mono-eyebrow">VISUAL TELEMETRY ARCHIVE</span>
+              <h3 class="stream-title">PHOTO PROOF LOGS</h3>
+            </div>
+            <div class="hardware-count-badge">
+              <span class="count-num mono-num" id="feed-total-snaps">0</span>
+              <span class="count-lbl">SNAPS</span>
+            </div>
+          </div>
+          <p class="stream-desc">Empirical optical verification recorded upon every task completion.</p>
+        </div>
+
+        <!-- Photo Feed Grid -->
+        <div class="photo-feed-grid" id="photo-feed-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="empty-state hidden" id="empty-feed-state">
+          <div class="empty-hardware-icon">📷</div>
+          <h4>OPTICAL ARCHIVE EMPTY</h4>
+          <p>Complete a habit and trigger the shutter mechanism to post photographic proof.</p>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: TELEMETRY, STATS & CALIBRATION ================= -->
+      <section class="view" id="view-stats">
+        
+        <!-- Hardware Rank & Power Unit Card -->
+        <div class="tactile-hardware-card power-unit-card">
+          <div class="power-header">
+            <div>
+              <span class="mono-meta">CALIBRATED OPERATOR LEVEL</span>
+              <h2 class="level-big-mono" id="stats-current-level">LEVEL 01</h2>
+            </div>
+            <div class="tier-hardware-chip" id="player-tier-title">NOVICE SEEKER</div>
+          </div>
+
+          <div class="precision-bar-track">
+            <div class="precision-bar-fill" id="xp-bar-fill" style="width: 15%;"></div>
+          </div>
+
+          <div class="flex-between mono-meta-row">
+            <span id="xp-current-sub">0 XP</span>
+            <span id="xp-next-sub">100 XP TO LEVEL 02</span>
+          </div>
+        </div>
+
+        <!-- AI Diagnostic Diagnostic Panel -->
+        <div class="tactile-hardware-card ai-diagnostics-card" style="margin-bottom: 16px;">
+          <div class="flex-between" style="margin-bottom: 10px;">
+            <div class="flex-align-center gap-6">
+              <span class="ai-sparkle">🧠</span>
+              <span class="sub-section-title">AI PERFORMANCE MATRIX</span>
+            </div>
+            <span class="mono-meta-tag" id="ai-diagnostics-grade">GRADE A+</span>
+          </div>
+          <div class="ai-metrics-bars">
+            <div class="ai-bar-row">
+              <div class="flex-between mono-meta">
+                <span>HABIT VELOCITY & STABILITY</span>
+                <span id="ai-diag-vel">94%</span>
+              </div>
+              <div class="precision-bar-track mini">
+                <div class="precision-bar-fill" style="width: 94%; background: var(--accent-orange);"></div>
+              </div>
+            </div>
+            <div class="ai-bar-row">
+              <div class="flex-between mono-meta">
+                <span>OPTICAL PROOF INTEGRITY</span>
+                <span id="ai-diag-opt">100%</span>
+              </div>
+              <div class="precision-bar-track mini">
+                <div class="precision-bar-fill" style="width: 100%; background: var(--accent-green);"></div>
+              </div>
+            </div>
+            <div class="ai-bar-row">
+              <div class="flex-between mono-meta">
+                <span>TIME-WINDOW ADHERENCE</span>
+                <span id="ai-diag-adh">88%</span>
+              </div>
+              <div class="precision-bar-track mini">
+                <div class="precision-bar-fill" style="width: 88%; background: var(--accent-cyan);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Quadrant Metric Matrix -->
+        <div class="hardware-matrix-grid">
+          <div class="matrix-tile">
+            <span class="matrix-label">MAX STREAK</span>
+            <div class="matrix-value mono-num" id="metric-best-streak">0D</div>
+            <span class="matrix-indicator green">● OPTIMAL</span>
+          </div>
+
+          <div class="matrix-tile">
+            <span class="matrix-label">VERIFIED TASKS</span>
+            <div class="matrix-value mono-num" id="metric-total-completed">0</div>
+            <span class="matrix-indicator orange">● LOGGED</span>
+          </div>
+
+          <div class="matrix-tile">
+            <span class="matrix-label">OUTPUT XP</span>
+            <div class="matrix-value mono-num" id="metric-points-earned">0</div>
+            <span class="matrix-indicator">● ACCUMULATED</span>
+          </div>
+
+          <div class="matrix-tile">
+            <span class="matrix-label">OPTICAL PROOFS</span>
+            <div class="matrix-value mono-num" id="metric-proofs-taken">0</div>
+            <span class="matrix-indicator cyan">● STORED</span>
+          </div>
+        </div>
+
+        <!-- Industrial Milestones & Badges -->
+        <div class="sub-section-header" style="margin-top: 24px;">
+          <div class="flex-align-center gap-6">
+            <span class="section-bullet">■</span>
+            <h4 class="sub-section-title">CERTIFIED MILESTONES</h4>
+          </div>
+          <span class="mono-meta-tag" id="badges-unlocked-count">0 / 8 UNLOCKED</span>
+        </div>
+
+        <div class="badges-grid" id="badges-grid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Quick Calibration & Memory Clear -->
+        <div class="tactile-hardware-card util-panel">
+          <div class="flex-between">
+            <div>
+              <h5 class="util-title">SYSTEM MEMORY UTILITIES</h5>
+              <p class="util-desc">Reload design benchmarks or wipe local telemetry storage.</p>
+            </div>
+          </div>
+          <div class="hardware-btn-group">
+            <button class="tactile-subtle-btn" id="btn-load-demo">⟳ LOAD BENCHMARK DATA</button>
+            <button class="tactile-subtle-btn danger" id="btn-reset-data">✕ PURGE ALL</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Industrial Mechanical Shutter FAB (+ Habit) (Hold for Exploded View) -->
+    <button class="mechanical-fab-btn exploded-trigger" id="fab-add-habit" title="Initialize Habit Unit (Press & Hold for CAD Exploded View)" aria-label="Add Habit">
+      <div class="knurled-fab-edge"></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+    </button>
+
+    <!-- Floating XP Precision Toast Notification -->
+    <div class="telemetry-toast" id="xp-toast">
+      <span class="toast-led">●</span>
+      <div class="toast-body">
+        <strong id="xp-toast-pts">+50 XP RECORDED</strong>
+        <span id="xp-toast-sub">Protocol Verified</span>
+      </div>
+    </div>
+
+    <!-- Industrial Bottom Navigation Console -->
+    <nav class="hardware-nav-bar">
+      <button class="nav-switch active" data-tab="habits">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>DASHBOARD</span>
+      </button>
+
+      <button class="nav-switch" data-tab="sleep">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <span>SLEEP</span>
+      </button>
+
+      <button class="nav-switch" data-tab="feed">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+        </svg>
+        <span>OPTICAL LOGS</span>
+      </button>
+
+      <button class="nav-switch" data-tab="stats">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="20" x2="18" y2="10"></line>
+          <line x1="12" y1="20" x2="12" y2="4"></line>
+          <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+        <span>TELEMETRY</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ================= MODAL: 3D CAD EXPLODED BUTTON ASSEMBLY ================= -->
+  <div class="modal-overlay" id="modal-exploded-view">
+    <div class="bottom-sheet hardware-sheet exploded-sheet">
+      <div class="sheet-knurl-handle"></div>
+      
+      <div class="sheet-header">
+        <div>
+          <span class="mono-meta">CAD TECHNICAL SCHEMATIC // EXPLODED VIEW</span>
+          <h3 class="sheet-title" id="exploded-part-title">TACTILE SWITCH ACTUATOR ASSEMBLY</h3>
+        </div>
+        <button class="tactile-close-btn" id="close-exploded-modal">&times;</button>
+      </div>
+
+      <!-- Exploded 3D Visual Diagram Component -->
+      <div class="exploded-viewport">
+        <div class="exploded-assembly">
+          <!-- Layer 1: CNC Aluminum Cap -->
+          <div class="exploded-layer layer-1">
+            <div class="layer-mesh cap-mesh">
+              <span class="knurl-ribs"></span>
+            </div>
+            <div class="layer-callout">
+              <span class="callout-line"></span>
+              <span class="callout-text">PART 01: 6061-T6 ANODIZED ALUMINUM CAP [Ø18.5mm]</span>
+            </div>
+          </div>
+
+          <!-- Layer 2: Knurled Bezel Ring -->
+          <div class="exploded-layer layer-2">
+            <div class="layer-mesh bezel-mesh"></div>
+            <div class="layer-callout">
+              <span class="callout-line"></span>
+              <span class="callout-text">PART 02: DIAMOND KNURLED BEZEL & SILICONE SEAL</span>
+            </div>
+          </div>
+
+          <!-- Layer 3: Return Spring & Torsion Coil -->
+          <div class="exploded-layer layer-3">
+            <div class="layer-mesh spring-mesh">
+              <span class="spring-coils"></span>
+            </div>
+            <div class="layer-callout">
+              <span class="callout-line"></span>
+              <span class="callout-text">PART 03: 1.2N GOLD-PLATED TACTILE RETURN SPRING</span>
+            </div>
+          </div>
+
+          <!-- Layer 4: FR4 Substrate & SMD LED -->
+          <div class="exploded-layer layer-4">
+            <div class="layer-mesh pcb-mesh">
+              <span class="led-core"></span>
+            </div>
+            <div class="layer-callout">
+              <span class="callout-line"></span>
+              <span class="callout-text">PART 04: FR4 PCB SUBSTRATE + HIGH-CRI SMD LED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exploded-specs-footer">
+        <div class="spec-col">
+          <span class="mono-meta">TOLERANCE</span>
+          <span class="mono-num" style="color: var(--accent-orange);">ISO 2768-m (±0.05mm)</span>
+        </div>
+        <div class="spec-col">
+          <span class="mono-meta">CMF FINISH</span>
+          <span class="mono-num">Bead-Blasted Hard Anodize</span>
+        </div>
+        <div class="spec-col">
+          <span class="mono-meta">ACTUATION FORCE</span>
+          <span class="mono-num">1.2 Newton Tactile Click</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: AI DESIGNER HABITS HUB ================= -->
+  <div class="modal-overlay" id="modal-designer-habits">
+    <div class="bottom-sheet hardware-sheet designer-habits-sheet">
+      <div class="sheet-knurl-handle"></div>
+      
+      <div class="sheet-header">
+        <div>
+          <span class="mono-meta">CURATED FOR INDUSTRIAL DESIGNERS</span>
+          <h3 class="sheet-title">AI RECOMMENDED DESIGN HABITS</h3>
+        </div>
+        <button class="tactile-close-btn" id="close-designer-habits-modal">&times;</button>
+      </div>
+
+      <p class="stream-desc" style="margin-bottom: 14px;">
+        1-tap add curated daily protocols crafted by AI to elevate your design thinking, ergonomics, and modeling speed.
+      </p>
+
+      <div class="designer-habits-grid" id="designer-habits-grid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: INDIVIDUAL HABIT AI AUDIT ================= -->
+  <div class="modal-overlay" id="modal-ai-habit-audit">
+    <div class="bottom-sheet hardware-sheet ai-audit-sheet">
+      <div class="sheet-knurl-handle"></div>
+      
+      <div class="sheet-header">
+        <div>
+          <span class="mono-meta">NEURAL HABIT EVALUATION</span>
+          <h3 class="sheet-title" id="ai-audit-habit-title">Habit Name</h3>
+        </div>
+        <button class="tactile-close-btn" id="close-ai-audit-modal">&times;</button>
+      </div>
+
+      <div class="ai-audit-content">
+        <!-- AI Rating Card -->
+        <div class="ai-rating-hero">
+          <div class="ai-rating-circle">
+            <span class="ai-rating-num mono-num" id="ai-audit-score">9.4</span>
+            <span class="ai-rating-sub">/ 10</span>
+          </div>
+          <div class="ai-rating-meta">
+            <span class="ai-grade-tag" id="ai-audit-grade">GRADE A+ (OPTIMAL)</span>
+            <h4 id="ai-audit-summary">High Consistency & High Output</h4>
+            <p id="ai-audit-time-advice">Executed at nominal scheduled windows.</p>
+          </div>
+        </div>
+
+        <!-- AI Progress Timeline Visualizer -->
+        <div class="ai-sparkline-card">
+          <span class="input-hardware-lbl">7-DAY PROGRESS VELOCITY CURVE</span>
+          <div class="sparkline-bars" id="ai-audit-sparkline">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- AI Neural Insights & Actionable Suggestions -->
+        <div class="ai-insights-box">
+          <div class="flex-align-center gap-6" style="margin-bottom: 6px;">
+            <span class="ai-sparkle">✨</span>
+            <span class="input-hardware-lbl" style="margin-bottom: 0;">AI SUGGESTIONS & OPTIMIZATION TIPS</span>
+          </div>
+          <ul class="ai-suggestions-list" id="ai-audit-suggestions-list">
+            <!-- Populated by JS -->
+          </ul>
+        </div>
+
+        <!-- Action Buttons -->
+        <button class="tactile-action-btn primary-orange" id="btn-reanalyze-habit-ai">
+          <span>⟳ RE-CALIBRATE AI ANALYSIS</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: LIVE COLOR CALIBRATION & HARDWARE SUITE ================= -->
+  <div class="modal-overlay" id="modal-color-calibration">
+    <div class="bottom-sheet hardware-sheet">
+      <div class="sheet-knurl-handle"></div>
+      
+      <div class="sheet-header">
+        <div>
+          <span class="mono-meta">COLOR CALIBRATION SUITE</span>
+          <h3 class="sheet-title">HARDWARE FINISHES & PALETTES</h3>
+        </div>
+        <button class="tactile-close-btn" id="close-calibration-modal">&times;</button>
+      </div>
+
+      <!-- Design Mode Architecture Switcher -->
+      <div class="calibration-section" style="margin-bottom: 18px;">
+        <label class="input-hardware-lbl">DESIGN ARCHITECTURE MODE</label>
+        <div class="modes-grid-selector" id="modes-grid-selector">
+          <!-- Populated by JS: Industrial, Modern, Cyberdeck, Dieter Minimal, Aerospace -->
+        </div>
+      </div>
+
+      <!-- Mode Name Customization Input -->
+      <div class="calibration-section" style="margin-bottom: 18px;">
+        <div class="flex-between" style="margin-bottom: 6px;">
+          <label class="input-hardware-lbl">CUSTOMIZE CURRENT MODE LABEL</label>
+          <span class="mono-meta-tag">EDITABLE</span>
+        </div>
+        <div class="mode-name-edit-box">
+          <input type="text" id="input-custom-mode-name" class="hardware-input" placeholder="e.g. STUDIO LAB // 01" maxlength="30" />
+          <button class="tactile-subtle-btn" id="btn-save-mode-name" style="padding: 10px 16px;">SAVE LABEL</button>
+        </div>
+      </div>
+
+      <!-- Presets Selector -->
+      <div class="calibration-section">
+        <label class="input-hardware-lbl">COLOR HARDWARE PROFILES</label>
+        <div class="theme-selection-grid" id="theme-selector-grid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Live Custom Color Editors -->
+      <div class="calibration-section" style="margin-top: 18px;">
+        <div class="flex-between" style="margin-bottom: 8px;">
+          <label class="input-hardware-lbl">CUSTOM LIVE COLOR TUNER</label>
+          <button class="btn-text-action" id="btn-reset-custom-colors">Reset Defaults</button>
+        </div>
+        
+        <div class="color-tuners-grid">
+          <div class="tuner-item">
+            <div class="tuner-meta">
+              <span class="tuner-title">Chassis Background</span>
+              <span class="mono-hex" id="hex-bg-primary">#121214</span>
+            </div>
+            <input type="color" id="tuner-color-bg" value="#121214" class="tuner-picker" />
+          </div>
+
+          <div class="tuner-item">
+            <div class="tuner-meta">
+              <span class="tuner-title">Matte Surface Card</span>
+              <span class="mono-hex" id="hex-bg-card">#1c1d22</span>
+            </div>
+            <input type="color" id="tuner-color-card" value="#1c1d22" class="tuner-picker" />
+          </div>
+
+          <div class="tuner-item">
+            <div class="tuner-meta">
+              <span class="tuner-title">International Accent</span>
+              <span class="mono-hex" id="hex-accent-orange">#ff5500</span>
+            </div>
+            <input type="color" id="tuner-color-accent" value="#ff5500" class="tuner-picker" />
+          </div>
+
+          <div class="tuner-item">
+            <div class="tuner-meta">
+              <span class="tuner-title">Muted Status Green</span>
+              <span class="mono-hex" id="hex-accent-green">#709775</span>
+            </div>
+            <input type="color" id="tuner-color-green" value="#709775" class="tuner-picker" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: ADD HABIT (HARDWARE SPEC) ================= -->
+  <div class="modal-overlay" id="modal-add-habit">
+    <div class="bottom-sheet hardware-sheet">
+      <div class="sheet-knurl-handle"></div>
+      
+      <div class="sheet-header">
+        <div>
+          <span class="mono-meta">PROTOCOL SPECIFICATION</span>
+          <h3 class="sheet-title">CREATE NEW HABIT UNIT</h3>
+        </div>
+        <button class="tactile-close-btn" id="close-add-modal">&times;</button>
+      </div>
+
+      <form id="form-create-habit" class="hardware-form">
+        <div class="form-group">
+          <label class="input-hardware-lbl" for="habit-input-title">PROTOCOL NAME</label>
+          <input type="text" id="habit-input-title" class="hardware-input" placeholder="e.g. CAD Solid Modeling / 1hr" required autocomplete="off" />
+        </div>
+
+        <!-- Category Selector -->
+        <div class="form-group">
+          <label class="input-hardware-lbl">FUNCTIONAL DISCIPLINE</label>
+          <div class="category-grid" id="category-selector">
+            <label class="cat-radio-card active">
+              <input type="radio" name="habit-category" value="fitness" checked />
+              <span class="cat-code">FIT</span>
+              <span class="cat-name">Fitness</span>
+            </label>
+            <label class="cat-radio-card">
+              <input type="radio" name="habit-category" value="mind" />
+              <span class="cat-code">MND</span>
+              <span class="cat-name">Mind</span>
+            </label>
+            <label class="cat-radio-card">
+              <input type="radio" name="habit-category" value="productivity" />
+              <span class="cat-code">FOC</span>
+              <span class="cat-name">Focus</span>
+            </label>
+            <label class="cat-radio-card">
+              <input type="radio" name="habit-category" value="health" />
+              <span class="cat-code">HLT</span>
+              <span class="cat-name">Health</span>
+            </label>
+            <label class="cat-radio-card">
+              <input type="radio" name="habit-category" value="creativity" />
+              <span class="cat-code">DSN</span>
+              <span class="cat-name">Design</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Habit Bar & LED Color Customization -->
+        <div class="form-group">
+          <label class="input-hardware-lbl">BAR ACCENT & STATUS LED COLOR</label>
+          <div class="habit-color-picker-grid" id="habit-color-selector">
+            <label class="color-dot-radio active" style="--color-accent: #ff5500;" title="Safety Orange">
+              <input type="radio" name="habit-color" value="#ff5500" checked />
+              <span class="color-circle" style="background: #ff5500;"></span>
+            </label>
+            <label class="color-dot-radio" style="--color-accent: #709775;" title="Muted Green">
+              <input type="radio" name="habit-color" value="#709775" />
+              <span class="color-circle" style="background: #709775;"></span>
+            </label>
+            <label class="color-dot-radio" style="--color-accent: #f59e0b;" title="Industrial Amber">
+              <input type="radio" name="habit-color" value="#f59e0b" />
+              <span class="color-circle" style="background: #f59e0b;"></span>
+            </label>
+            <label class="color-dot-radio" style="--color-accent: #0ea5e9;" title="Machinery Azure">
+              <input type="radio" name="habit-color" value="#0ea5e9" />
+              <span class="color-circle" style="background: #0ea5e9;"></span>
+            </label>
+            <label class="color-dot-radio" style="--color-accent: #e11d48;" title="Warning Crimson">
+              <input type="radio" name="habit-color" value="#e11d48" />
+              <span class="color-circle" style="background: #e11d48;"></span>
+            </label>
+            <label class="color-dot-radio" style="--color-accent: #a855f7;" title="Ultraviolet">
+              <input type="radio" name="habit-color" value="#a855f7" />
+              <span class="color-circle" style="background: #a855f7;"></span>
+            </label>
+            <label class="color-dot-radio custom-color-wrapper" title="Custom Hex Color">
+              <input type="color" id="habit-custom-color-input" value="#ff7700" class="native-color-picker" />
+              <span class="color-circle custom-rainbow">🎨</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Workload / Points Allocation -->
+        <div class="form-group">
+          <label class="input-hardware-lbl">WORKLOAD DIFFICULTY (OUTPUT PTS)</label>
+          <div class="points-reward-grid">
+            <label class="points-radio-card">
+              <input type="radio" name="habit-points" value="15" />
+              <span class="pts-val mono-num">+15</span>
+              <span class="pts-diff">LOW LOAD</span>
+            </label>
+            <label class="points-radio-card active">
+              <input type="radio" name="habit-points" value="30" checked />
+              <span class="pts-val mono-num">+30</span>
+              <span class="pts-diff">NOMINAL</span>
+            </label>
+            <label class="points-radio-card">
+              <input type="radio" name="habit-points" value="60" />
+              <span class="pts-val mono-num">+60</span>
+              <span class="pts-diff">HEAVY LOAD</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Target Time & Code Tag -->
+        <div class="form-row">
+          <div class="form-group half">
+            <label class="input-hardware-lbl" for="habit-input-time">SCHEDULE TIME</label>
+            <input type="time" id="habit-input-time" class="hardware-input mono-num" value="08:00" />
+          </div>
+          <div class="form-group half">
+            <label class="input-hardware-lbl" for="habit-input-tag">DISCIPLINE CODE</label>
+            <input type="text" id="habit-input-tag" class="hardware-input" placeholder="#PROTO-01" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="tactile-action-btn primary-orange">
+          <span>INITIALIZE PROTOCOL</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: PHOTO PROOF CAMERA & LOGGING ================= -->
+  <div class="modal-overlay" id="modal-photo-proof">
+    <div class="bottom-sheet hardware-sheet proof-sheet">
+      <div class="sheet-knurl-handle"></div>
+
+      <div class="sheet-header">
+        <div>
+          <span class="mono-meta" id="proof-habit-category">DISCIPLINE // FITNESS</span>
+          <h3 class="sheet-title" id="proof-habit-title">Morning Workout</h3>
+        </div>
+        <button class="tactile-close-btn" id="close-proof-modal">&times;</button>
+      </div>
+
+      <div class="hardware-viewfinder-card">
+        <video id="camera-stream" autoplay playsinline muted class="camera-view hidden"></video>
+        <img id="photo-preview" class="photo-preview hidden" alt="Proof Preview" />
+
+        <div class="camera-placeholder" id="camera-placeholder">
+          <div class="optical-glyph">⌖</div>
+          <p>OPTICAL VERIFICATION REQUIRED<br><span class="sub-text">Capture live photo evidence or upload test proof</span></p>
+        </div>
+
+        <div class="viewfinder-reticle">
+          <div class="reticle-center">+</div>
+          <div class="reticle-corner tl"></div>
+          <div class="reticle-corner tr"></div>
+          <div class="reticle-corner bl"></div>
+          <div class="reticle-corner br"></div>
+        </div>
+
+        <div class="viewfinder-telemetry-tag" id="proof-points-badge">+30 XP REWARD</div>
+      </div>
+
+      <div class="camera-actions-bar">
+        <button class="tactile-cam-btn" id="btn-start-camera">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <span>ACTIVATE CAM</span>
+        </button>
+
+        <button class="knurled-shutter-trigger hidden" id="btn-shutter" title="Trigger Shutter">
+          <div class="shutter-core"></div>
+        </button>
+
+        <button class="tactile-cam-btn hidden" id="btn-retake">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          <span>RE-CALIBRATE</span>
+        </button>
+
+        <label class="tactile-cam-btn" for="file-upload-input">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span>FILE UPLOAD</span>
+          <input type="file" id="file-upload-input" accept="image/*" class="hidden-input" />
+        </label>
+      </div>
+
+      <div class="form-group" style="margin-top: 14px;">
+        <label class="input-hardware-lbl" for="proof-caption">EMPIRICAL OBSERVATION / NOTE</label>
+        <input type="text" id="proof-caption" class="hardware-input" placeholder="e.g. Iteration 04 approved with 0.1mm tolerance" autocomplete="off" />
+      </div>
+
+      <button class="tactile-action-btn primary-orange" id="btn-confirm-proof" disabled>
+        <span id="btn-confirm-proof-label">CONFIRM OPTICAL PROOF (+0 XP)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MODAL: HIGH-RES LIGHTBOX ================= -->
+  <div class="modal-overlay" id="modal-photo-detail">
+    <div class="lightbox-hardware-box">
+      <button class="tactile-close-btn lightbox-close" id="close-detail-modal">&times;</button>
+      <div class="lightbox-img-wrap">
+        <img id="lightbox-img" src="" alt="Proof High Res" />
+      </div>
+      <div class="lightbox-meta">
+        <div class="flex-between" style="margin-bottom: 6px;">
+          <div>
+            <span class="mono-meta" id="lightbox-category">DISCIPLINE // FITNESS</span>
+            <h3 id="lightbox-title" style="font-size: 16px; font-weight: 700;">Task Name</h3>
+          </div>
+          <span class="mono-num" id="lightbox-pts" style="color: var(--accent-orange); font-weight: 800;">+30 XP</span>
+        </div>
+        <p id="lightbox-caption" class="lightbox-caption-text">Notes recorded.</p>
+        <span class="mono-time" id="lightbox-time">2026-09-15 08:30:00</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
